@@ -65,6 +65,12 @@ class CsvDataCollector:
     def save(self, dataframe, mode="w"):
         self.io.atomic_write(dataframe, self.path, mode)
 
+    def remove(self):
+        if os.path.exists(self.path):
+            os.remove(self.path)
+        if os.path.exists(self.path + ".lock~"):
+            os.remove(self.path + ".lock~")
+
 
 class SqlDataCollector:
     def __init__(self, storage, echo=False):
@@ -85,3 +91,9 @@ class SqlDataCollector:
 
     def save(self, dataframe, table_name="search_data", if_exists="replace"):
         dataframe.to_sql(table_name, self.engine, if_exists=if_exists)
+
+    def remove(self):
+        if os.path.exists(self.db_path):
+            os.remove(self.db_path)
+        if os.path.exists(self.db_path + ".lock~"):
+            os.remove(self.db_path + ".lock~")
