@@ -45,7 +45,7 @@ class DataIO:
             return pd.read_csv(self.path)
 
 
-class CsvDataCollector:
+class CsvStorage:
     def __init__(self, path, drop_duplicates=False):
         self.path = path
         self.drop_duplicates = drop_duplicates
@@ -72,25 +72,25 @@ class CsvDataCollector:
             os.remove(self.path + ".lock~")
 
 
-class SqlDataCollector:
+class SqlStorage:
     def __init__(self, storage, echo=False):
         self.storage = storage
         self.engine = create_engine(storage, echo=echo)
 
         self.db_path = self.engine.url.database
 
-    def load(self, table_name="search_data"):
-        return pd.read_sql(table_name, self.engine)
+    def load(self, table="default"):
+        return pd.read_sql(table, self.engine)
 
-    def append(self, dictionary):
+    def append(self, dictionary, table="default"):
         dataframe = pd.DataFrame(dictionary, index=[0])
 
         lock = FileLock(self.db_path + ".lock~")
         with lock:
-            dataframe.to_sql("search_data", self.engine, if_exists="append")
+            dataframe.to_sql(table, self.engine, if_exists="append")
 
-    def save(self, dataframe, table_name="search_data", if_exists="replace"):
-        dataframe.to_sql(table_name, self.engine, if_exists=if_exists)
+    def save(self, dataframe, table="default", if_exists="replace"):
+        dataframe.to_sql(table, self.engine, if_exists=if_exists)
 
     def remove(self):
         if os.path.exists(self.db_path):

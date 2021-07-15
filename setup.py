@@ -22,8 +22,8 @@ def find_version(*filepath):
 
 
 setup(
-    name="hyperactive-data-collector",
-    version=find_version("hyperactive_data_collector/__init__.py"),
+    name="hyperactive-data-storage",
+    version=find_version("hyperactive_data_storage/__init__.py"),
     author="Simon Blanke",
     author_email="simon.blanke@yahoo.com",
     license="MIT",

@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from hyperactive import Hyperactive
 
-from hyperactive_data_collector import SqlDataCollector
+from hyperactive_data_storage import SqlStorage
 
 
 def objective_function(para):
@@ -27,7 +27,7 @@ def search_data_equal(search_data1, search_data2):
 
 
 def test_sql_0():
-    collector = SqlDataCollector("sqlite:///search_data.db")
+    collector = SqlStorage("sqlite:///search_data.db")
 
     hyper = Hyperactive(verbosity=False)
     hyper.add_search(objective_function, search_space, n_iter=100, memory=False)
@@ -43,7 +43,7 @@ def test_sql_0():
 
 
 def test_sql_1():
-    collector = SqlDataCollector("sqlite:///search_data.db")
+    collector = SqlStorage("sqlite:///search_data.db")
 
     hyper = Hyperactive(verbosity=False)
     hyper.add_search(
@@ -61,7 +61,7 @@ def test_sql_1():
 
 
 def test_sql_2():
-    collector = SqlDataCollector("sqlite:///search_data.db")
+    collector = SqlStorage("sqlite:///search_data.db")
 
     hyper = Hyperactive(verbosity=False)
     hyper.add_search(
@@ -78,7 +78,7 @@ def test_sql_2():
     search_data_equal(search_data1, search_data2)
 
 
-collector1 = SqlDataCollector("sqlite:///search_data1.db")
+collector1 = SqlStorage("sqlite:///search_data1.db")
 
 
 def objective_function_append1(para):
@@ -103,7 +103,7 @@ def test_sql_3():
     search_data_equal(search_data1, search_data2)
 
 
-collector2 = SqlDataCollector("sqlite:///search_data2.db")
+collector2 = SqlStorage("sqlite:///search_data2.db")
 
 
 def objective_function_append2(para):
@@ -130,7 +130,7 @@ def test_sql_4():
     search_data_equal(search_data1, search_data2)
 
 
-collector3 = SqlDataCollector("sqlite:///search_data3.db")
+collector3 = SqlStorage("sqlite:///search_data3.db")
 
 
 def objective_function_append3(para):

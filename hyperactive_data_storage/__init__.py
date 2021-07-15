@@ -6,9 +6,9 @@ __version__ = "0.0.1"
 __license__ = "MIT"
 
 
-from .data_collector import CsvDataCollector, SqlDataCollector
+from .data_collector import CsvStorage, SqlStorage
 
 __all__ = [
-    "CsvDataCollector",
-    "SqlDataCollector",
+    "CsvStorage",
+    "SqlStorage",
 ]
