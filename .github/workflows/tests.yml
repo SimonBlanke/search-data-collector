@@ -5,9 +5,9 @@ name: data-storage
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
         python-version: [3.5, 3.6, 3.7, 3.8]
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@main
     
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
