@@ -41,10 +41,10 @@ jobs:
         
     - name: Test with pytest
       run: |
-        python -m pytest tests --cov=data_storage --cov-report=term-missing --cov-report=xml -p no:warnings
+        python -m pytest tests --cov=hyperactive_data_storage --cov-report=term-missing --cov-report=xml -p no:warnings
         
     - name: Adjust coverage file for Codecov
-      run: bash <(sed -i 's/filename=\"/filename=\"data_storage\//g' coverage.xml)
+      run: bash <(sed -i 's/filename=\"/filename=\"hyperactive_data_storage\//g' coverage.xml)
         
     - name: Upload coverage to Codecov  
       uses: codecov/codecov-action@v1
