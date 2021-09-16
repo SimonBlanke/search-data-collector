@@ -52,6 +52,14 @@ class SearchDataConverter:
                 func_name = func.__name__
                 func_replace[func_name] = func
 
+            if para_name not in list(search_data.columns):
+                err = (
+                    " Error: parameters of "
+                    "search space and previously saved "
+                    "search data does not match!"
+                )
+                print("\n" + err + "\n")
+
             search_data[para_name].replace(func_replace, inplace=True)
 
         return search_data

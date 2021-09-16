@@ -90,7 +90,8 @@ class DataCollector:
             print("Error")
         elif isinstance(self.search_space, dict):
             df = self.io.load(self.path)
-            return self.conv.str2func(df)
+            if df is not None:
+                return self.conv.str2func(df)
         else:
             print("Error")
 
