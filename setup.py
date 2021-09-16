@@ -22,7 +22,7 @@ def find_version(*filepath):
 
 
 setup(
-    name="hyperactive-data-storage",
+    name="hyperactive_data_storage",
     version=find_version("hyperactive_data_storage/__init__.py"),
     author="Simon Blanke",
     author_email="simon.blanke@yahoo.com",

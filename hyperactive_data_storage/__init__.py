@@ -2,13 +2,12 @@
 # Email: simon.blanke@yahoo.com
 # License: MIT License
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 __license__ = "MIT"
 
 
-from .data_collector import CsvStorage, SqlStorage
+from .data_collector import DataCollector
 
 __all__ = [
-    "CsvStorage",
-    "SqlStorage",
+    "DataCollector",
 ]
