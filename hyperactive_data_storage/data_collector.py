@@ -9,6 +9,8 @@ import pandas as pd
 from filelock import FileLock
 from sqlalchemy import create_engine
 
+from .search_data_converter import SearchDataConverter
+
 
 class DataIO:
     def __init__(self, path, drop_duplicates):
@@ -45,9 +47,29 @@ class DataIO:
             return pd.read_csv(self.path)
 
 
-class CsvStorage:
-    def __init__(self, path, drop_duplicates=False):
+def func2str(obj):
+    try:
+        return obj.__name__
+    except:
+        return obj
+
+
+def df_obj2df_str(df):
+    df_obj = df.select_dtypes("object")
+    obj_cols = list(df_obj.columns)
+
+    for col in list(df_obj.columns):
+        df_obj[col] = df_obj[col].apply(func2str)
+
+    df[obj_cols] = df_obj
+
+    return df
+
+
+class DataCollector:
+    def __init__(self, path, search_space=None, drop_duplicates=False):
         self.path = path
+        self.search_space = search_space
         self.drop_duplicates = drop_duplicates
 
         self.path2file = path.rsplit("/", 1)[0] + "/"
@@ -55,14 +77,30 @@ class CsvStorage:
 
         self.io = DataIO(path, drop_duplicates)
 
+        if search_space is None:
+            self.func2str = df_obj2df_str
+        elif isinstance(search_space, dict):
+            self.conv = SearchDataConverter(search_space)
+            self.func2str = self.conv.func2str
+        else:
+            print("Error")
+
     def load(self):
-        return self.io.load(self.path)
+        if self.search_space is None:
+            print("Error")
+        elif isinstance(self.search_space, dict):
+            df = self.io.load(self.path)
+            return self.conv.str2func(df)
+        else:
+            print("Error")
 
     def append(self, dictionary):
         dataframe = pd.DataFrame(dictionary, index=[0])
+        dataframe = self.func2str(dataframe)
         self.io.locked_write(dataframe, self.path)
 
     def save(self, dataframe, mode="w"):
+        dataframe = self.func2str(dataframe)
         self.io.atomic_write(dataframe, self.path, mode)
 
     def remove(self):
@@ -72,6 +110,7 @@ class CsvStorage:
             os.remove(self.path + ".lock~")
 
 
+"""
 class SqlStorage:
     def __init__(self, storage, echo=False):
         self.storage = storage
@@ -97,3 +136,4 @@ class SqlStorage:
             os.remove(self.db_path)
         if os.path.exists(self.db_path + ".lock~"):
             os.remove(self.db_path + ".lock~")
+"""
