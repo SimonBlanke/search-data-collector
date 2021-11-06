@@ -6,8 +6,9 @@ __version__ = "0.0.2"
 __license__ = "MIT"
 
 
-from .data_collector import DataCollector
+from .data_collector import DataCollector, DataSaver
 
 __all__ = [
     "DataCollector",
+    "DataSaver",
 ]

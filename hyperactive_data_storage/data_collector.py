@@ -47,23 +47,35 @@ class DataIO:
             return pd.read_csv(self.path)
 
 
-def func2str(obj):
-    try:
-        return obj.__name__
-    except:
+def func2str(obj, obj_cols):
+    if obj.name in obj_cols:
+        try:  # is obj
+            return obj.__name__
+        except:  # is str
+            return obj
+    else:  # is number
         return obj
 
 
 def df_obj2df_str(df):
     df_obj = df.select_dtypes("object")
-    obj_cols = list(df_obj.columns)
+    obj_cols = list(df_obj.columns)  # str and obj
 
-    for col in list(df_obj.columns):
-        df_obj[col] = df_obj[col].apply(func2str)
-
-    df[obj_cols] = df_obj
+    df = df.apply(func2str, obj_cols=obj_cols)
 
     return df
+
+
+class DataSaver:
+    def __init__(self, path):
+        self.path = path
+
+        self.io = DataIO(path, False)
+
+    def append(self, dictionary):
+        dataframe = pd.DataFrame(dictionary, index=[0])
+        dataframe = df_obj2df_str(dataframe)
+        self.io.locked_write(dataframe, self.path)
 
 
 class DataCollector:
