@@ -21,7 +21,6 @@ class DataIO:
     def _save_dataframe(self, dataframe, io_wrap):
         if self.drop_duplicates:
             dataframe.drop_duplicates(subset=self.drop_duplicates, inplace=True)
-
         dataframe.to_csv(io_wrap, index=False, header=not io_wrap.tell())
 
     @contextlib.contextmanager
@@ -47,13 +46,10 @@ class DataIO:
             return pd.read_csv(self.path)
 
 
-def func2str(obj, obj_cols):
-    if obj.name in obj_cols:
-        try:  # is obj
-            return obj.__name__
-        except:  # is str
-            return obj
-    else:  # is number
+def func2str(obj):
+    try:  # is obj
+        return obj.__name__
+    except:  # is str
         return obj
 
 
@@ -61,15 +57,14 @@ def df_obj2df_str(df):
     df_obj = df.select_dtypes("object")
     obj_cols = list(df_obj.columns)  # str and obj
 
-    df = df.apply(func2str, obj_cols=obj_cols)
-
+    for obj_col in obj_cols:
+        df[obj_col] = df[obj_col].apply(func2str)
     return df
 
 
 class DataSaver:
     def __init__(self, path):
         self.path = path
-
         self.io = DataIO(path, False)
 
     def append(self, dictionary):
