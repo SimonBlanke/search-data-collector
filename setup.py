@@ -7,7 +7,7 @@ from setuptools import find_packages
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-requires = ["pandas", "sqlalchemy", "filelock"]
+requires = ["pandas", "filelock"]
 
 
 def find_version(*filepath):
@@ -27,7 +27,7 @@ setup(
     author="Simon Blanke",
     author_email="simon.blanke@yahoo.com",
     license="MIT",
-    description="Thread safe data collection into csv-files or sql-databases",
+    description="Thread safe and atomic data collection into csv-files",
     long_description=long_description,
     long_description_content_type="text/markdown",
     keywords=["data-science"],
