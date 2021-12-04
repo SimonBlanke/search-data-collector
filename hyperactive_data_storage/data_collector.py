@@ -116,32 +116,3 @@ class DataCollector:
             os.remove(self.path)
         if os.path.exists(self.path + ".lock~"):
             os.remove(self.path + ".lock~")
-
-
-"""
-class SqlStorage:
-    def __init__(self, storage, echo=False):
-        self.storage = storage
-        self.engine = create_engine(storage, echo=echo)
-
-        self.db_path = self.engine.url.database
-
-    def load(self, table="default"):
-        return pd.read_sql(table, self.engine)
-
-    def append(self, dictionary, table="default"):
-        dataframe = pd.DataFrame(dictionary, index=[0])
-
-        lock = FileLock(self.db_path + ".lock~")
-        with lock:
-            dataframe.to_sql(table, self.engine, if_exists="append")
-
-    def save(self, dataframe, table="default", if_exists="replace"):
-        dataframe.to_sql(table, self.engine, if_exists=if_exists)
-
-    def remove(self):
-        if os.path.exists(self.db_path):
-            os.remove(self.db_path)
-        if os.path.exists(self.db_path + ".lock~"):
-            os.remove(self.db_path + ".lock~")
-"""
