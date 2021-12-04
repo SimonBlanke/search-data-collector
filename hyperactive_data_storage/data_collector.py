@@ -7,7 +7,6 @@ import os
 import contextlib
 import pandas as pd
 from filelock import FileLock
-from sqlalchemy import create_engine
 
 from .search_data_converter import SearchDataConverter
 
