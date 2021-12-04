@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from hyperactive import Hyperactive
 
-from hyperactive_data_storage import CsvStorage
+from hyperactive_data_storage import DataCollector
 
 
 def objective_function(para):
@@ -12,7 +12,7 @@ def objective_function(para):
 
 
 search_space = {
-    "x1": np.arange(0, 1000, 0.1),
+    "x1": list(np.arange(0, 1000, 0.1)),
 }
 
 
@@ -27,23 +27,26 @@ def search_data_equal(search_data1, search_data2):
 
 
 def test_csv_0():
-    collector = CsvStorage("./search_data.csv")
+    collector = DataCollector("./search_data.csv")
 
     hyper = Hyperactive(verbosity=False)
     hyper.add_search(objective_function, search_space, n_iter=100, memory=False)
     hyper.run()
 
-    search_data1 = hyper.results(objective_function)
+    search_data1 = hyper.search_data(objective_function)
 
     collector.save(search_data1)
     search_data2 = collector.load()
     collector.remove()
 
+    print("\n search_data1 \n", search_data1)
+    print("\n search_data2 \n", search_data2)
+
     search_data_equal(search_data1, search_data2)
 
 
 def test_csv_1():
-    collector = CsvStorage("./search_data.csv")
+    collector = DataCollector("./search_data.csv")
 
     hyper = Hyperactive(verbosity=False)
     hyper.add_search(
@@ -51,7 +54,7 @@ def test_csv_1():
     )
     hyper.run()
 
-    search_data1 = hyper.results(objective_function)
+    search_data1 = hyper.search_data(objective_function)
 
     collector.save(search_data1)
     search_data2 = collector.load()
@@ -61,7 +64,7 @@ def test_csv_1():
 
 
 def test_csv_2():
-    collector = CsvStorage("./search_data.csv")
+    collector = DataCollector("./search_data.csv")
 
     hyper = Hyperactive(verbosity=False)
     hyper.add_search(
@@ -69,7 +72,7 @@ def test_csv_2():
     )
     hyper.run()
 
-    search_data1 = hyper.results(objective_function)
+    search_data1 = hyper.search_data(objective_function)
 
     collector.save(search_data1)
     search_data2 = collector.load()
@@ -78,7 +81,7 @@ def test_csv_2():
     search_data_equal(search_data1, search_data2)
 
 
-collector1 = CsvStorage("./search_data1.csv")
+collector1 = DataCollector("./search_data1.csv")
 
 
 def objective_function_append1(para):
@@ -96,14 +99,14 @@ def test_csv_3():
     hyper.add_search(objective_function_append1, search_space, n_iter=100, memory=False)
     hyper.run()
 
-    search_data1 = hyper.results(objective_function_append1)
+    search_data1 = hyper.search_data(objective_function_append1)
     search_data2 = collector1.load()
     collector1.remove()
 
     search_data_equal(search_data1, search_data2)
 
 
-collector2 = CsvStorage("./search_data2.csv")
+collector2 = DataCollector("./search_data2.csv")
 
 
 def objective_function_append2(para):
@@ -123,14 +126,14 @@ def test_csv_4():
     )
     hyper.run()
 
-    search_data1 = hyper.results(objective_function_append2)
+    search_data1 = hyper.search_data(objective_function_append2)
     search_data2 = collector2.load()
     collector2.remove()
 
     search_data_equal(search_data1, search_data2)
 
 
-collector3 = CsvStorage("./search_data3.csv")
+collector3 = DataCollector("./search_data3.csv")
 
 
 def objective_function_append3(para):
@@ -150,7 +153,7 @@ def test_csv_5():
     )
     hyper.run()
 
-    search_data1 = hyper.results(objective_function_append3)
+    search_data1 = hyper.search_data(objective_function_append3)
     search_data2 = collector3.load()
     collector3.remove()
 
