@@ -13,14 +13,11 @@ from .search_data_converter import SearchDataConverter
 
 
 class DataIO:
-    def __init__(self, path, drop_duplicates):
+    def __init__(self, path):
         self.path = path
         self.replace_existing = False
-        self.drop_duplicates = drop_duplicates
 
     def _save_dataframe(self, dataframe, io_wrap):
-        if self.drop_duplicates:
-            dataframe.drop_duplicates(subset=self.drop_duplicates, inplace=True)
         dataframe.to_csv(io_wrap, index=False, header=not io_wrap.tell())
 
     @contextlib.contextmanager
@@ -41,7 +38,7 @@ class DataIO:
             with open(path, "a") as io_wrap:
                 self._save_dataframe(dataframe, io_wrap)
 
-    def load(self, path):
+    def load(self):
         if os.path.isfile(self.path) and os.path.getsize(self.path) > 0:
             return pd.read_csv(self.path)
 
@@ -74,42 +71,43 @@ class DataSaver:
 
 
 class DataCollector:
-    def __init__(self, path, search_space=None, drop_duplicates=False):
+    def __init__(self, path):
         self.path = path
-        self.search_space = search_space
-        self.drop_duplicates = drop_duplicates
 
         self.path2file = path.rsplit("/", 1)[0] + "/"
         self.file_name = path.rsplit("/", 1)[1]
 
-        self.io = DataIO(path, drop_duplicates)
+        self.io = DataIO(path)
+        self.conv = SearchDataConverter()
+
+    def load(self, search_space=None):
+        df = self.io.load()
 
         if search_space is None:
-            self.func2str = df_obj2df_str
+            return df
         elif isinstance(search_space, dict):
-            self.conv = SearchDataConverter(search_space)
-            self.func2str = self.conv.func2str
+            return self.conv.str2func(df, search_space)
         else:
-            print("Error")
+            print("\n Error")
 
-    def load(self):
-        if self.search_space is None:
-            print("Error")
-        elif isinstance(self.search_space, dict):
-            df = self.io.load(self.path)
-            if df is not None:
-                return self.conv.str2func(df)
-        else:
-            print("Error")
+    def check_conv(self, df):
+        if self.conv.data_types is None:
+            print("\n check_conv")
+            self.conv.dim_types(df)
+            print(self.conv.data_types)
 
     def append(self, dictionary):
-        dataframe = pd.DataFrame(dictionary, index=[0])
-        dataframe = self.func2str(dataframe)
-        self.io.locked_write(dataframe, self.path)
+        df = pd.DataFrame(dictionary, index=[0])
+        self.check_conv(df)
 
-    def save(self, dataframe, mode="w"):
-        dataframe = self.func2str(dataframe)
-        self.io.atomic_write(dataframe, self.path, mode)
+        df = self.conv.func2str(df)
+        self.io.locked_write(df, self.path)
+
+    def save(self, df, mode="w"):
+        self.check_conv(df)
+
+        df = self.conv.func2str(df)
+        self.io.atomic_write(df, self.path, mode)
 
     def remove(self):
         if os.path.exists(self.path):
