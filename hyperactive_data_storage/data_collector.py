@@ -79,8 +79,21 @@ class DataCollector:
         self.io = DataIO(path)
         self.conv = SearchDataConverter()
 
+    @staticmethod
+    def is_df_valid(df):
+        if df is None:
+            print("Warning: Loaded dataframe is None")
+            return False
+        elif len(df) == 0:
+            print("Warning: Loaded dataframe is empty")
+            return False
+
+        return True
+
     def load(self, search_space=None):
         df = self.io.load()
+        if not self.is_df_valid(df):
+            return df
 
         if search_space is None:
             return df
@@ -89,21 +102,15 @@ class DataCollector:
         else:
             print("\n Error")
 
-    def check_conv(self, df):
-        if self.conv.data_types is None:
-            print("\n check_conv")
-            self.conv.dim_types(df)
-            print(self.conv.data_types)
-
     def append(self, dictionary):
         df = pd.DataFrame(dictionary, index=[0])
-        self.check_conv(df)
+        self.is_df_valid(df)
 
         df = self.conv.func2str(df)
         self.io.locked_write(df, self.path)
 
     def save(self, df, mode="w"):
-        self.check_conv(df)
+        self.is_df_valid(df)
 
         df = self.conv.func2str(df)
         self.io.atomic_write(df, self.path, mode)

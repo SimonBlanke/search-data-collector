@@ -29,6 +29,8 @@ class SearchDataConverter:
         self.data_types = data_types
 
     def str2func(self, search_data, search_space):
+        self.dim_types(search_data)
+
         for para_name in self.data_types.keys():
             data_type = self.data_types[para_name]
 
@@ -59,6 +61,8 @@ class SearchDataConverter:
         return search_data
 
     def func2str(self, search_data):
+        self.dim_types(search_data)
+
         for para_name in self.data_types.keys():
             data_type = self.data_types[para_name]
 
