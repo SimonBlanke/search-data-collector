@@ -42,10 +42,9 @@ class DataIO:
                 raise Exception("Data header does not match csv header")
 
     def locked_write(self, dataframe, path):
-        self.check_col_names(dataframe, path)
-
         lock = FileLock(path + ".lock~")
         with lock:
+            self.check_col_names(dataframe, path)
             with open(path, "a") as io_wrap:
                 self._save_dataframe(dataframe, io_wrap)
 
