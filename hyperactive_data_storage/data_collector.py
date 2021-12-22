@@ -28,10 +28,22 @@ class DataIO:
         os.rename(temp, filename)  # this will only happen if no exception was raised
 
     def atomic_write(self, dataframe, path, mode):
+        self.check_col_names(dataframe, path)
+
         with self.atomic_overwrite(path, mode) as io_wrap:
             self._save_dataframe(dataframe, io_wrap)
 
+    def check_col_names(self, dataframe, path):
+        if os.path.exists(path):
+            csv_col_names = pd.read_csv(path, nrows=0).columns.tolist()
+            df_col_names = list(dataframe.columns)
+
+            if csv_col_names != df_col_names:
+                raise Exception("Data header does not match csv header")
+
     def locked_write(self, dataframe, path):
+        self.check_col_names(dataframe, path)
+
         lock = FileLock(path + ".lock~")
         with lock:
             with open(path, "a") as io_wrap:
