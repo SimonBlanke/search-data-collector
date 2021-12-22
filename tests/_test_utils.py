@@ -34,6 +34,9 @@ def search_data_equal(search_data1, search_data2, assert_order=True):
             occur_d2 = Counter(list(values2))
 
             if occur_d1 != occur_d2:
+                print("\n occur_d1 \n", occur_d1)
+                print("\n occur_d2 \n", occur_d2)
+
                 return False
 
         if assert_order and not np.array_equal(values1, values2):
