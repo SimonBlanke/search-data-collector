@@ -102,17 +102,20 @@ class DataCollector:
         else:
             print("\n Error")
 
-    def append(self, dictionary):
+    def append(self, dictionary, func2str=True):
         df = pd.DataFrame(dictionary, index=[0])
         self.is_df_valid(df)
 
-        df = self.conv.func2str(df)
+        if func2str:
+            df = self.conv.func2str(df)
         self.io.locked_write(df, self.path)
 
-    def save(self, df, mode="w"):
+    def save(self, df, func2str=True, mode="w"):
         self.is_df_valid(df)
 
-        df = self.conv.func2str(df)
+        if func2str:
+            ft_tmp = df.copy()
+            df = self.conv.func2str(ft_tmp)
         self.io.atomic_write(df, self.path, mode)
 
     def remove(self):

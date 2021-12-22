@@ -3,7 +3,6 @@
 # License: MIT License
 
 
-import numbers
 import numpy as np
 
 
@@ -11,7 +10,7 @@ class SearchDataConverter:
     def __init__(self):
         self.data_types = None
 
-    def dim_types(self, search_data):
+    def df_types(self, search_data):
         cols = list(search_data.columns)
         data_types = {}
         for col in cols:
@@ -26,13 +25,32 @@ class SearchDataConverter:
                 _type_ = "number"
 
             data_types[col] = _type_
-        self.data_types = data_types
+        return data_types
+
+    def ss_types(self, search_space):
+        dim_keys = list(search_space.keys())
+        data_types = {}
+        for dim_key in dim_keys:
+            dim_values = np.array(list(search_space[dim_key]))
+            try:
+                np.subtract(dim_values, dim_values)
+                np.array(dim_values).searchsorted(dim_values)
+            except:
+                _type_ = "object"
+            else:
+                _type_ = "number"
+
+            data_types[dim_key] = _type_
+        return data_types
 
     def str2func(self, search_data, search_space):
-        self.dim_types(search_data)
+        if search_space:
+            data_types = self.ss_types(search_space)
+        else:
+            data_types = self.df_types(search_data)
 
-        for para_name in self.data_types.keys():
-            data_type = self.data_types[para_name]
+        for para_name in data_types.keys():
+            data_type = data_types[para_name]
 
             if data_type != "object":
                 continue
@@ -43,6 +61,7 @@ class SearchDataConverter:
                     obj_.__name__
                 except:
                     func_name = obj_
+                    search_data[para_name] = search_data[para_name].astype(str)
                 else:
                     func_name = obj_.__name__
 
@@ -61,10 +80,10 @@ class SearchDataConverter:
         return search_data
 
     def func2str(self, search_data):
-        self.dim_types(search_data)
+        data_types = self.df_types(search_data)
 
-        for para_name in self.data_types.keys():
-            data_type = self.data_types[para_name]
+        for para_name in data_types.keys():
+            data_type = data_types[para_name]
 
             if data_type != "object":
                 continue
@@ -77,11 +96,11 @@ class SearchDataConverter:
                     obj_.__name__
                 except:
                     func_name = obj_
+                    search_data[para_name] = search_data[para_name].astype(str)
                 else:
                     func_name = obj_.__name__
 
                 func_replace[obj_] = func_name
-
             search_data[para_name].replace(func_replace, inplace=True)
 
         return search_data
