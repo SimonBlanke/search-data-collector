@@ -40,7 +40,7 @@ objective_para = (
 def test_hyperactive_save_0(objective, search_space):
     print("\n search_space \n", search_space)
 
-    collector = DataCollector("./search_data")
+    collector = DataCollector("./search_data.csv")
     collector.remove()
 
     hyper = Hyperactive()
@@ -51,9 +51,6 @@ def test_hyperactive_save_0(objective, search_space):
     collector.save(search_data2)
     search_data1 = collector.load(search_space)
 
-    print("\n search_data1 \n", search_data1, "\n dtypes:\n", search_data1.dtypes)
-    print("\n search_data2 \n", search_data2, "\n dtypes:\n", search_data2.dtypes)
-
     assert search_data_equal(search_data1, search_data2)
 
 
@@ -62,7 +59,7 @@ def test_hyperactive_save_0(objective, search_space):
 def test_hyperactive_save_1(objective, search_space):
     print("\n search_space \n", search_space)
 
-    collector = DataCollector("./search_data")
+    collector = DataCollector("./search_data.csv")
     collector.remove()
 
     hyper = Hyperactive()
@@ -73,9 +70,6 @@ def test_hyperactive_save_1(objective, search_space):
     collector.save(search_data2)
     search_data1 = collector.load()
     search_data1 = collector.conv.str2func(search_data1, search_space)
-
-    print("\n search_data1 \n", search_data1, "\n dtypes:\n", search_data1.dtypes)
-    print("\n search_data2 \n", search_data2, "\n dtypes:\n", search_data2.dtypes)
 
     assert search_data_equal(search_data1, search_data2)
 
@@ -88,7 +82,7 @@ search_space_list = search_space_setup(search_space_types="functions")
 def test_hyperactive_save_2(objective, search_space):
     print("\n search_space \n", search_space)
 
-    collector = DataCollector("./search_data")
+    collector = DataCollector("./search_data.csv")
     collector.remove()
 
     hyper = Hyperactive()
@@ -98,9 +92,6 @@ def test_hyperactive_save_2(objective, search_space):
     search_data2 = hyper.search_data(objective)
     collector.save(search_data2)
     search_data1 = collector.load()
-
-    print("\n search_data1 \n", search_data1, "\n dtypes:\n", search_data1.dtypes)
-    print("\n search_data2 \n", search_data2, "\n dtypes:\n", search_data2.dtypes)
 
     assert not search_data_equal(search_data1, search_data2)
 
@@ -113,7 +104,7 @@ search_space_list = search_space_setup(search_space_types="numeric")
 def test_hyperactive_save_3(objective, search_space):
     print("\n search_space \n", search_space)
 
-    collector = DataCollector("./search_data")
+    collector = DataCollector("./search_data.csv")
     collector.remove()
 
     hyper = Hyperactive()
@@ -123,9 +114,6 @@ def test_hyperactive_save_3(objective, search_space):
     search_data2 = hyper.search_data(objective)
     collector.save(search_data2)
     search_data1 = collector.load()
-
-    print("\n search_data1 \n", search_data1, "\n dtypes:\n", search_data1.dtypes)
-    print("\n search_data2 \n", search_data2, "\n dtypes:\n", search_data2.dtypes)
 
     assert search_data_equal(search_data1, search_data2)
 
@@ -138,7 +126,7 @@ search_space_list = search_space_setup()
 def test_hyperactive_save_4(objective, search_space):
     print("\n search_space \n", search_space)
 
-    collector = DataCollector("./search_data")
+    collector = DataCollector("./search_data.csv")
     collector.remove()
 
     hyper = Hyperactive()
@@ -153,7 +141,7 @@ def test_hyperactive_save_4(objective, search_space):
         "x1": list(np.arange(0, 10)),
     }
 
-    collector = DataCollector("./search_data")
+    collector = DataCollector("./search_data.csv")
     hyper = Hyperactive()
     hyper.add_search(objective, _search_space_, n_iter=15)
     hyper.run()
