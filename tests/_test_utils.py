@@ -1,7 +1,9 @@
 import numpy as np
 
+from collections import Counter
 
-def search_data_equal(search_data1, search_data2):
+
+def search_data_equal(search_data1, search_data2, assert_order=True):
     col1 = list(search_data1.columns)
     col2 = list(search_data2.columns)
 
@@ -27,7 +29,14 @@ def search_data_equal(search_data1, search_data2):
         values1 = search_data1[col].values
         values2 = search_data2[col].values
 
-        if not np.array_equal(values1, values2):
+        if not assert_order:
+            occur_d1 = Counter(list(values1))
+            occur_d2 = Counter(list(values2))
+
+            if occur_d1 != occur_d2:
+                return False
+
+        if assert_order and not np.array_equal(values1, values2):
             print("\n values1 \n", values1)
             print("\n values2 \n", values2)
 
