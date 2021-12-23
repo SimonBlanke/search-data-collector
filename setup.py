@@ -7,7 +7,7 @@ from setuptools import find_packages
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-requires = ["pandas", "filelock"]
+requires = ["numpy", "pandas", "filelock"]
 
 
 def find_version(*filepath):
@@ -22,8 +22,8 @@ def find_version(*filepath):
 
 
 setup(
-    name="hyperactive_data_storage",
-    version=find_version("hyperactive_data_storage/__init__.py"),
+    name="simple-data-collector",
+    version=find_version("simple_data_collector/__init__.py"),
     author="Simon Blanke",
     author_email="simon.blanke@yahoo.com",
     license="MIT",

@@ -10,8 +10,8 @@ develop:
 	pip install -e .
 
 reinstall:
-	pip uninstall -y hyperactive_data_storage
-	rm -fr build dist hyperactive_data_storage.egg-info
+	pip uninstall -y simple_data_collector
+	rm -fr build dist simple_data_collector.egg-info
 	python setup.py bdist_wheel
 	pip install dist/*
 
