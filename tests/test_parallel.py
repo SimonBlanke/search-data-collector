@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from hyperactive import Hyperactive
 
-from hyperactive_data_storage import DataCollector
+from simple_data_collector import DataCollector
 
 from ._test_utils import search_data_equal
 
