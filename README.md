@@ -2,7 +2,16 @@
     Simple Data Collector
 </H1>
 
-<br>
+
+<p align="center">
+  <a href="https://github.com/SimonBlanke/simple-data-collector/actions">
+    <img src="https://github.com/SimonBlanke/simple-data-collector/actions/workflows/tests.yml/badge.svg?branch=master" alt="img not loaded: try F5 :)">
+  </a>
+  <a href="https://app.codecov.io/gh/SimonBlanke/simple-data-collector">
+    <img src="https://img.shields.io/codecov/c/github/SimonBlanke/simple-data-collector/master&logo=codecov" alt="img not loaded: try F5 :)">
+  </a>
+</p>
+
 
 <H2 align="center">
     Thread-safe and atomic collection of tabular data into csv-files.
