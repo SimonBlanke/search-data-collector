@@ -46,9 +46,6 @@ jobs:
       run: |
         python -m pytest tests --cov=simple_data_collector --cov-report=term-missing --cov-report=xml -p no:warnings
         
-    - name: Adjust coverage file for Codecov
-      run: bash <(sed -i 's/filename=\"/filename=\"simple_data_collector\//g' coverage.xml)
-        
     - name: Upload coverage to Codecov  
       uses: codecov/codecov-action@v1
       with:
