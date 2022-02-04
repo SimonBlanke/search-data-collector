@@ -304,8 +304,7 @@ def test_append_2(search_space):
         "x1": list(np.arange(0, 10)),
     }
 
-    collector = DataCollector("./search_data.csv")
-    hyper = Hyperactive()
-    hyper.add_search(objective_function, _search_space_, n_iter=15)
     with pytest.raises(Exception):
+        hyper = Hyperactive()
+        hyper.add_search(objective_function, _search_space_, n_iter=15)
         hyper.run()
