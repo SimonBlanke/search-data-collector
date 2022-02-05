@@ -213,7 +213,7 @@ search_space_list = [
 
 
 @pytest.mark.parametrize("search_space", search_space_list)
-def test_append_0(search_space):
+def test_append_2(search_space):
     collector = DataCollector("./search_data.csv")
     collector.remove()
 
@@ -234,44 +234,12 @@ def test_append_0(search_space):
     )
     hyper.run()
 
-    search_data2 = hyper.search_data(objective_function)
-    search_data1 = collector.load(search_space)
+    _search_space_ = {
+        "x0": list(np.arange(0, 10)),
+        "x1": list(np.arange(0, 10)),
+    }
 
-    search_data1 = collector.conv.func2str(search_data1)
-    search_data2 = collector.conv.func2str(search_data2)
-
-    assert search_data_equal(search_data1, search_data2, assert_order=False)
-    assert len(search_data2) == int(3 * 15)
-
-
-@pytest.mark.parametrize("search_space", search_space_list)
-def test_append_1(search_space):
-    collector = DataCollector("./search_data.csv")
-    collector.remove()
-
-    def objective_function(para):
-        score = -para["x1"] * para["x1"]
-
-        para_dict = para.para_dict
-        para_dict["score"] = score
-        collector.append(para_dict)
-        return score
-
-    hyper = Hyperactive(distribution="pathos")
-    hyper.add_search(
-        objective_function, search_space, n_iter=15, n_jobs=2, memory=False
-    )
-    hyper.add_search(
-        objective_function, search_space, n_iter=15, n_jobs=1, memory=False
-    )
-    hyper.run()
-
-    search_data2 = hyper.search_data(objective_function)
-    search_data1 = collector.load()
-    search_data1 = collector.conv.str2func(search_data1, search_space)
-
-    search_data1 = collector.conv.func2str(search_data1)
-    search_data2 = collector.conv.func2str(search_data2)
-
-    assert search_data_equal(search_data1, search_data2, assert_order=False)
-    assert len(search_data2) == int(3 * 15)
+    with pytest.raises(Exception):
+        hyper = Hyperactive()
+        hyper.add_search(objective_function, _search_space_, n_iter=15)
+        hyper.run()
