@@ -244,6 +244,7 @@ def test_append_0(search_space):
     assert len(search_data2) == int(3 * 15)
 
 
+"""
 @pytest.mark.parametrize("search_space", search_space_list)
 def test_append_1(search_space):
     collector = DataCollector("./search_data.csv")
@@ -275,3 +276,4 @@ def test_append_1(search_space):
 
     assert search_data_equal(search_data1, search_data2, assert_order=False)
     assert len(search_data2) == int(3 * 15)
+"""
