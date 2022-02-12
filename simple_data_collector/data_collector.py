@@ -60,26 +60,6 @@ def func2str(obj):
         return obj
 
 
-def df_obj2df_str(df):
-    df_obj = df.select_dtypes("object")
-    obj_cols = list(df_obj.columns)  # str and obj
-
-    for obj_col in obj_cols:
-        df[obj_col] = df[obj_col].apply(func2str)
-    return df
-
-
-class DataSaver:
-    def __init__(self, path):
-        self.path = path
-        self.io = DataIO(path, False)
-
-    def append(self, dictionary):
-        dataframe = pd.DataFrame(dictionary, index=[0])
-        dataframe = df_obj2df_str(dataframe)
-        self.io.locked_write(dataframe, self.path)
-
-
 class DataCollector:
     def __init__(self, path):
         self.path = path
