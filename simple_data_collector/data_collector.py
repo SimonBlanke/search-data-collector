@@ -30,6 +30,9 @@ class DataIO:
     def atomic_write(self, dataframe, path, mode):
         self.check_col_names(dataframe, path)
 
+        if mode in ["a", "a+"]:
+            dataframe = self.load().append(dataframe)
+
         with self.atomic_overwrite(path, mode) as io_wrap:
             self._save_dataframe(dataframe, io_wrap)
 
