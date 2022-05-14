@@ -217,6 +217,8 @@ def test_append_0(search_space):
     collector = DataCollector("./search_data.csv")
     collector.remove()
 
+    n_iter = 150
+
     def objective_function(para):
         score = -para["x1"] * para["x1"]
 
@@ -227,10 +229,10 @@ def test_append_0(search_space):
 
     hyper = Hyperactive(distribution="pathos")
     hyper.add_search(
-        objective_function, search_space, n_iter=15, n_jobs=2, memory=False
+        objective_function, search_space, n_iter=n_iter, n_jobs=2, memory=False
     )
     hyper.add_search(
-        objective_function, search_space, n_iter=15, n_jobs=1, memory=False
+        objective_function, search_space, n_iter=n_iter, n_jobs=1, memory=False
     )
     hyper.run()
 
@@ -241,13 +243,15 @@ def test_append_0(search_space):
     search_data2 = collector.conv.func2str(search_data2)
 
     assert search_data_equal(search_data1, search_data2, assert_order=False)
-    assert len(search_data2) == int(3 * 15)
+    assert len(search_data2) == int(3 * n_iter)
 
 
 @pytest.mark.parametrize("search_space", search_space_list)
 def test_append_1(search_space):
     collector = DataCollector("./search_data.csv")
     collector.remove()
+
+    n_iter = 150
 
     def objective_function(para):
         score = -para["x1"] * para["x1"]
@@ -259,10 +263,10 @@ def test_append_1(search_space):
 
     hyper = Hyperactive(distribution="pathos")
     hyper.add_search(
-        objective_function, search_space, n_iter=15, n_jobs=2, memory=False
+        objective_function, search_space, n_iter=n_iter, n_jobs=2, memory=False
     )
     hyper.add_search(
-        objective_function, search_space, n_iter=15, n_jobs=1, memory=False
+        objective_function, search_space, n_iter=n_iter, n_jobs=1, memory=False
     )
     hyper.run()
 
@@ -274,7 +278,7 @@ def test_append_1(search_space):
     search_data2 = collector.conv.func2str(search_data2)
 
     assert search_data_equal(search_data1, search_data2, assert_order=False)
-    assert len(search_data2) == int(3 * 15)
+    assert len(search_data2) == int(3 * n_iter)
 
 
 @pytest.mark.parametrize("search_space", search_space_list)
@@ -292,10 +296,10 @@ def test_append_2(search_space):
 
     hyper = Hyperactive(distribution="pathos")
     hyper.add_search(
-        objective_function, search_space, n_iter=15, n_jobs=2, memory=False
+        objective_function, search_space, n_iter=150, n_jobs=2, memory=False
     )
     hyper.add_search(
-        objective_function, search_space, n_iter=15, n_jobs=1, memory=False
+        objective_function, search_space, n_iter=150, n_jobs=1, memory=False
     )
     hyper.run()
 
