@@ -14,42 +14,61 @@ from .search_data_converter import SearchDataConverter
 class DataIO:
     def __init__(self, path):
         self.path = path
+        self.lock_path = self.path + ".lock~"
+
         self.replace_existing = False
+        self.callbacks = None
 
     def _save_dataframe(self, dataframe, io_wrap):
         dataframe.to_csv(io_wrap, index=False, header=not io_wrap.tell())
 
+    def _run_callbacks(self, type_):
+        if self.callbacks and type_ in self.callbacks:
+            [callback(self.path) for callback in self.callbacks[type_]]
+
     @contextlib.contextmanager
-    def atomic_overwrite(self, filename, mode):
+    def atomic_overwrite(self, mode):
         # from: https://stackoverflow.com/questions/42409707/pandas-to-csv-overwriting-prevent-data-loss
-        temp = filename + "~"
+        temp = self.path + "~"
         with open(temp, mode) as f:
             yield f
-        os.rename(temp, filename)  # this will only happen if no exception was raised
+        os.rename(temp, self.path)  # this will only happen if no exception was raised
 
-    def atomic_write(self, dataframe, path, mode):
-        self.check_col_names(dataframe, path)
+    def atomic_write(self, dataframe, mode):
+        self.check_col_names(dataframe)
 
         if mode in ["a", "a+"]:
-            dataframe = self.load().append(dataframe)
+            old_df = self.load()
+            if isinstance(old_df, pd.DataFrame):
+                dataframe = old_df.append(dataframe)
 
-        with self.atomic_overwrite(path, mode) as io_wrap:
+        with self.atomic_overwrite(mode) as io_wrap:
             self._save_dataframe(dataframe, io_wrap)
 
-    def check_col_names(self, dataframe, path):
-        if os.path.exists(path):
-            csv_col_names = pd.read_csv(path, nrows=0).columns.tolist()
+    def check_col_names(self, dataframe):
+        if os.path.exists(self.path) and len(dataframe) > 0:
+            csv_col_names = pd.read_csv(self.path, nrows=0).columns.tolist()
             df_col_names = list(dataframe.columns)
 
             if csv_col_names != df_col_names:
                 raise Exception("Data header does not match csv header")
 
-    def locked_write(self, dataframe, path):
-        lock = FileLock(path + ".lock~")
+    def locked_write(self, dataframe, callbacks):
+        self.callbacks = callbacks
+
+        lock = FileLock(self.lock_path)
+
         with lock:
-            self.check_col_names(dataframe, path)
-            with open(path, "a") as io_wrap:
+            self.check_col_names(dataframe)
+
+            self._run_callbacks("before")
+            with open(self.path, "a") as io_wrap:
                 self._save_dataframe(dataframe, io_wrap)
+            self._run_callbacks("after")
+
+    def remove_lock(self):
+        if os.path.isfile(self.lock_path):
+            os.remove(self.lock_path)
 
     def load(self):
         if os.path.isfile(self.path) and os.path.getsize(self.path) > 0:
@@ -64,8 +83,9 @@ def func2str(obj):
 
 
 class DataCollector:
-    def __init__(self, path):
+    def __init__(self, path, func2str=True):
         self.path = path
+        self.func2str = func2str
 
         self.path2file = path.rsplit("/", 1)[0] + "/"
         self.file_name = path.rsplit("/", 1)[1]
@@ -96,21 +116,21 @@ class DataCollector:
         else:
             print("\n Error")
 
-    def append(self, dictionary, func2str=True):
-        df = pd.DataFrame(dictionary, index=[0])
-        self.is_df_valid(df)
+    def append(self, dictionary, callbacks={}):
+        dataframe = pd.DataFrame(dictionary, index=[0])
+        self.is_df_valid(dataframe)
 
-        if func2str:
-            df = self.conv.func2str(df)
-        self.io.locked_write(df, self.path)
+        if self.func2str:
+            dataframe = self.conv.func2str(dataframe)
+        self.io.locked_write(dataframe, callbacks)
 
-    def save(self, df, func2str=True, mode="w"):
-        self.is_df_valid(df)
+    def save(self, dataframe, mode="w"):
+        self.is_df_valid(dataframe)
 
-        if func2str:
-            ft_tmp = df.copy()
-            df = self.conv.func2str(ft_tmp)
-        self.io.atomic_write(df, self.path, mode)
+        if self.func2str:
+            ft_tmp = dataframe.copy()
+            dataframe = self.conv.func2str(ft_tmp)
+        self.io.atomic_write(dataframe, mode)
 
     def remove(self):
         if os.path.exists(self.path):
