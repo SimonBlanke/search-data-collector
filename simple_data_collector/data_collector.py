@@ -11,7 +11,7 @@ from filelock import FileLock
 from .search_data_converter import SearchDataConverter
 
 
-class DataIO:
+class DataIo:
     def __init__(self, path):
         self.path = path
         self.lock_path = self.path + ".lock~"
@@ -51,7 +51,13 @@ class DataIO:
             df_col_names = list(dataframe.columns)
 
             if csv_col_names != df_col_names:
-                raise Exception("Data header does not match csv header")
+                msg = (
+                    "Data header does not match csv header:\n",
+                    csv_col_names,
+                    "\n",
+                    df_col_names,
+                )
+                raise Exception(msg)
 
     def locked_write(self, dataframe, callbacks):
         self.callbacks = callbacks
@@ -87,10 +93,7 @@ class DataCollector:
         self.path = path
         self.func2str = func2str
 
-        self.path2file = path.rsplit("/", 1)[0] + "/"
-        self.file_name = path.rsplit("/", 1)[1]
-
-        self.io = DataIO(path)
+        self.io = DataIo(path)
         self.conv = SearchDataConverter()
 
     @staticmethod
