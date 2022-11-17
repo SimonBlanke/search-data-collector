@@ -10,8 +10,8 @@ develop:
 	pip install -e .
 
 reinstall:
-	pip uninstall -y simple_data_collector
-	rm -fr build dist simple_data_collector.egg-info
+	pip uninstall -y search_data_collector
+	rm -fr build dist search_data_collector.egg-info
 	python setup.py bdist_wheel
 	pip install dist/*
 

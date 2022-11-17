@@ -1,14 +1,14 @@
 <H1 align="center">
-    Simple Data Collector
+    Search Data Collector
 </H1>
 
 
 <p align="center">
-  <a href="https://github.com/SimonBlanke/simple-data-collector/actions">
-    <img src="https://github.com/SimonBlanke/simple-data-collector/actions/workflows/tests.yml/badge.svg?branch=main" alt="img not loaded: try F5 :)">
+  <a href="https://github.com/SimonBlanke/search-data-collector/actions">
+    <img src="https://github.com/SimonBlanke/search-data-collector/actions/workflows/tests.yml/badge.svg?branch=main" alt="img not loaded: try F5 :)">
   </a>
-  <a href="https://app.codecov.io/gh/SimonBlanke/simple-data-collector">
-    <img src="https://img.shields.io/codecov/c/github/SimonBlanke/simple-data-collector/main&logo=codecov" alt="img not loaded: try F5 :)">
+  <a href="https://app.codecov.io/gh/SimonBlanke/search-data-collector">
+    <img src="https://img.shields.io/codecov/c/github/SimonBlanke/search-data-collector/main&logo=codecov" alt="img not loaded: try F5 :)">
   </a>
 </p>
 
@@ -19,7 +19,7 @@
 
 <br>
 
-The simple-data-collector provides a single class with with following methods:
+The search-data-collector provides a single class with with following methods:
  - save
  - append
  - load
@@ -27,7 +27,7 @@ The simple-data-collector provides a single class with with following methods:
 
 It was created as a utility function for the [Hyperactive-package](https://github.com/SimonBlanke/Hyperactive). It was intended to be used as a search-data collection tool. The search-data can be collected during the optimization run as a dictionary via `append` or after the run as a dataframe with the `save`-method. <br>
 The `append`-method is thread-safe to work with hyperactive-multiprocessing. The `save`-method is atomic to avoid accidental data-loss. <br>
-The simple-data-collector handles functions in the data by converting them to strings. If the data is loaded you can pass the search_space to convert the strings back to functions.
+The search-data-collector handles functions in the data by converting them to strings. If the data is loaded you can pass the search_space to convert the strings back to functions.
 
 
 <br>
@@ -35,7 +35,7 @@ The simple-data-collector handles functions in the data by converting them to st
 ## Installation
 
 ```console
-pip install simple-data-collector 
+pip install search-data-collector 
 ```
 
 
@@ -46,7 +46,7 @@ pip install simple-data-collector
 ```python
 import numpy as np
 from hyperactive import Hyperactive
-from simple_data_collector import DataCollector
+from search_data_collector import DataCollector
 
 collector = DataCollector("./search_data.csv") # the csv is created automatically
 

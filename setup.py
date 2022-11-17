@@ -22,8 +22,8 @@ def find_version(*filepath):
 
 
 setup(
-    name="simple-data-collector",
-    version=find_version("simple_data_collector/__init__.py"),
+    name="search-data-collector",
+    version=find_version("search_data_collector/__init__.py"),
     author="Simon Blanke",
     author_email="simon.blanke@yahoo.com",
     license="MIT",
@@ -31,7 +31,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     keywords=["data-science"],
-    url="https://github.com/SimonBlanke/data-collector",
+    url="https://github.com/SimonBlanke/search-data-collector",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
