@@ -30,7 +30,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install flake8 pytest coveralls codecov pytest-cov
-          python -m pip install hyperactive 
+          python -m pip install hyperactive pathos
           # hyperactive-progress-board hyperactive-long-term-memory
           python -m pip install .
 
