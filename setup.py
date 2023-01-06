@@ -7,8 +7,6 @@ from setuptools import find_packages
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-requires = ["numpy", "pandas", "filelock"]
-
 
 def find_version(*filepath):
     here = os.path.abspath(os.path.dirname(__file__))
@@ -47,5 +45,6 @@ setup(
         "Intended Audience :: Information Technology",
         "Intended Audience :: Science/Research",
     ],
-    install_requires=requires,
+    install_requires=open("./requirements.txt").readlines(),
+    python_requires=">=3.5",
 )
