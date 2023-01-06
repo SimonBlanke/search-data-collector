@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from hyperactive import Hyperactive
 
-from search_data_collector import DataCollector
+from search_data_collector import SearchDataCollector
 
 from ._test_utils import search_data_equal
 from ._search_space_list import search_space_setup
@@ -14,7 +14,7 @@ search_space_list = search_space_setup()
 
 @pytest.mark.parametrize("search_space", search_space_list)
 def test_append_0(search_space):
-    collector = DataCollector("./search_data.csv")
+    collector = SearchDataCollector("./search_data.csv")
     collector.remove()
 
     def objective_function(para):
@@ -37,7 +37,7 @@ def test_append_0(search_space):
 
 @pytest.mark.parametrize("search_space", search_space_list)
 def test_append_1(search_space):
-    collector = DataCollector("./search_data.csv")
+    collector = SearchDataCollector("./search_data.csv")
     collector.remove()
 
     def objective_function(para):
@@ -64,7 +64,7 @@ search_space_list = search_space_setup(search_space_types="functions")
 
 @pytest.mark.parametrize("search_space", search_space_list)
 def test_append_2(search_space):
-    collector = DataCollector("./search_data.csv")
+    collector = SearchDataCollector("./search_data.csv")
     collector.remove()
 
     def objective_function(para):
@@ -90,7 +90,7 @@ search_space_list = search_space_setup(search_space_types="numeric")
 
 @pytest.mark.parametrize("search_space", search_space_list)
 def test_append_3(search_space):
-    collector = DataCollector("./search_data.csv")
+    collector = SearchDataCollector("./search_data.csv")
     collector.remove()
 
     def objective_function(para):
@@ -113,7 +113,7 @@ def test_append_3(search_space):
 
 @pytest.mark.parametrize("search_space", search_space_list)
 def test_append_4(search_space):
-    collector = DataCollector("./search_data.csv")
+    collector = SearchDataCollector("./search_data.csv")
     collector.remove()
 
     def objective_function(para):
@@ -133,7 +133,7 @@ def test_append_4(search_space):
         "x1": list(np.arange(0, 10)),
     }
 
-    collector = DataCollector("./search_data.csv")
+    collector = SearchDataCollector("./search_data.csv")
     hyper = Hyperactive()
     hyper.add_search(objective_function, _search_space_, n_iter=15)
     with pytest.raises(Exception):

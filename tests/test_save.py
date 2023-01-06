@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from hyperactive import Hyperactive
 
-from search_data_collector import DataCollector
+from search_data_collector import SearchDataCollector
 
 from ._test_utils import search_data_equal
 from ._search_space_list import search_space_setup
@@ -40,7 +40,7 @@ objective_para = (
 def test_hyperactive_save_0(objective, search_space):
     print("\n search_space \n", search_space)
 
-    collector = DataCollector("./search_data.csv")
+    collector = SearchDataCollector("./search_data.csv")
     collector.remove()
 
     hyper = Hyperactive()
@@ -59,7 +59,7 @@ def test_hyperactive_save_0(objective, search_space):
 def test_hyperactive_save_1(objective, search_space):
     print("\n search_space \n", search_space)
 
-    collector = DataCollector("./search_data.csv")
+    collector = SearchDataCollector("./search_data.csv")
     collector.remove()
 
     hyper = Hyperactive()
@@ -82,7 +82,7 @@ search_space_list = search_space_setup(search_space_types="functions")
 def test_hyperactive_save_2(objective, search_space):
     print("\n search_space \n", search_space)
 
-    collector = DataCollector("./search_data.csv")
+    collector = SearchDataCollector("./search_data.csv")
     collector.remove()
 
     hyper = Hyperactive()
@@ -104,7 +104,7 @@ search_space_list = search_space_setup(search_space_types="numeric")
 def test_hyperactive_save_3(objective, search_space):
     print("\n search_space \n", search_space)
 
-    collector = DataCollector("./search_data.csv")
+    collector = SearchDataCollector("./search_data.csv")
     collector.remove()
 
     hyper = Hyperactive()
@@ -126,7 +126,7 @@ search_space_list = search_space_setup()
 def test_hyperactive_save_4(objective, search_space):
     print("\n search_space \n", search_space)
 
-    collector = DataCollector("./search_data.csv")
+    collector = SearchDataCollector("./search_data.csv")
     collector.remove()
 
     hyper = Hyperactive()
@@ -141,7 +141,7 @@ def test_hyperactive_save_4(objective, search_space):
         "x1": list(np.arange(0, 10)),
     }
 
-    collector = DataCollector("./search_data.csv")
+    collector = SearchDataCollector("./search_data.csv")
     hyper = Hyperactive()
     hyper.add_search(objective, _search_space_, n_iter=15)
     hyper.run()

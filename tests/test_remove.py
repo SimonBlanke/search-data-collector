@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from hyperactive import Hyperactive
 
-from search_data_collector import DataCollector
+from search_data_collector import SearchDataCollector
 
 from ._test_utils import search_data_equal
 from ._search_space_list import search_space_setup
@@ -37,7 +37,7 @@ objective_para = (
 
 @pytest.mark.parametrize(*objective_para)
 def test_remove_0(objective):
-    collector = DataCollector("./search_data")
+    collector = SearchDataCollector("./search_data")
     collector.remove()
 
     search_data = collector.load()

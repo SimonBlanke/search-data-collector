@@ -88,7 +88,7 @@ def func2str(obj):
         return obj
 
 
-class DataCollector:
+class SearchDataCollector:
     def __init__(self, path, func2str=True):
         self.path = path
         self.func2str = func2str
@@ -117,7 +117,7 @@ class DataCollector:
         elif isinstance(search_space, dict):
             return self.conv.str2func(df, search_space)
         else:
-            print("\n Error")
+            raise ValueError
 
     def append(self, dictionary, callbacks={}):
         dataframe = pd.DataFrame(dictionary, index=[0])

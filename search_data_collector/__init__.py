@@ -6,6 +6,6 @@ __version__ = "0.2.0"
 __license__ = "MIT"
 
 
-from .data_collector import DataCollector
+from .search_data_collector import SearchDataCollector
 
-__all__ = ["DataCollector"]
+__all__ = ["SearchDataCollector"]
