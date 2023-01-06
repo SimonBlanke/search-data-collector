@@ -48,7 +48,7 @@ import numpy as np
 from hyperactive import Hyperactive
 from search_data_collector import DataCollector
 
-collector = DataCollector("./search_data.csv") # the csv is created automatically
+collector = SearchDataCollector("./search_data.csv") # the csv is created automatically
 
 
 def ackley_function(para):
