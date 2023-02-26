@@ -37,10 +37,9 @@ class DataIo:
     def atomic_write(self, dataframe, mode):
         self.check_col_names(dataframe)
 
-        if mode in ["a", "a+"]:
-            old_df = self.load()
-            if isinstance(old_df, pd.DataFrame):
-                dataframe = old_df.append(dataframe)
+        old_df = self.load()
+        if isinstance(old_df, pd.DataFrame):
+            dataframe = old_df.append(dataframe)
 
         with self.atomic_overwrite(mode) as io_wrap:
             self._save_dataframe(dataframe, io_wrap)
