@@ -45,5 +45,6 @@ setup(
         "Intended Audience :: Information Technology",
         "Intended Audience :: Science/Research",
     ],
+    install_requires=open("./requirements.txt").readlines(),
     python_requires=">=3.5",
 )
