@@ -13,11 +13,15 @@
 </p>
 
 
+<br>
+
 <H2 align="center">
     Thread-safe and atomic collection of tabular data into csv-files.
 </H2>
 
 <br>
+
+## Introduction
 
 The search-data-collector provides a single class with following methods to manage data:
  - save
