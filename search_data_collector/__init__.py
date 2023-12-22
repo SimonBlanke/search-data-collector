@@ -7,5 +7,6 @@ __license__ = "MIT"
 
 
 from .search_data_collector import SearchDataCollector
+from .sql_data_collector import SqlDataCollector
 
-__all__ = ["SearchDataCollector"]
+__all__ = ["SearchDataCollector", "SqlDataCollector"]
