@@ -36,7 +36,8 @@ MANIFEST
 # dev
 *.csv
 *.lock~
-
+*.db
+*___.py
 
 # Installer logs
 pip-log.txt
