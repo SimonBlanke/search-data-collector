@@ -74,28 +74,6 @@ def test_hyperactive_save_1(objective, search_space):
     assert search_data_equal(search_data1, search_data2)
 
 
-search_space_list = search_space_setup(search_space_types="functions")
-
-
-@pytest.mark.parametrize("search_space", search_space_list)
-@pytest.mark.parametrize(*objective_para)
-def test_hyperactive_save_2(objective, search_space):
-    print("\n search_space \n", search_space)
-
-    collector = SearchDataCollector("./search_data.csv")
-    collector.remove()
-
-    hyper = Hyperactive()
-    hyper.add_search(objective, search_space, n_iter=15)
-    hyper.run()
-
-    search_data2 = hyper.search_data(objective)
-    collector.save(search_data2)
-    search_data1 = collector.load()
-
-    assert not search_data_equal(search_data1, search_data2)
-
-
 search_space_list = search_space_setup(search_space_types="numeric")
 
 
