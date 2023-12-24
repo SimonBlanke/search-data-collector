@@ -1,4 +1,4 @@
-import sqlalchemy
+import sqlalchemy as sql
 
 import pandas as pd
 
@@ -13,7 +13,7 @@ class SqlDataCollector:
         self.ml_data_path = "sqlite:///" + path
         self.conv = SearchDataConverter()
 
-        self.dbEngine = sqlalchemy.create_engine(self.ml_data_path)
+        self.dbEngine = sql.create_engine(self.ml_data_path)
 
     def load(self, table, search_space=None):
         df = pd.read_sql_table(table, self.dbEngine)
@@ -41,5 +41,9 @@ class SqlDataCollector:
             name=table, con=self.dbEngine, index=False, if_exists=if_exists
         )
 
-    def remove(self):
-        raise NotImplementedError
+    def remove(self, table):
+        try:
+            tbl = sql.Table(table, sql.MetaData(), autoload_with=self.dbEngine)
+            tbl.drop(self.dbEngine, checkfirst=False)
+        except sql.exc.NoSuchTableError:
+            pass
