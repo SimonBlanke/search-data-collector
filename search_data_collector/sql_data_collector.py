@@ -1,4 +1,3 @@
-import os
 import sqlalchemy
 
 import pandas as pd
@@ -41,3 +40,6 @@ class SqlDataCollector:
         dataframe.to_sql(
             name=table, con=self.dbEngine, index=False, if_exists=if_exists
         )
+
+    def remove(self):
+        raise NotImplementedError
