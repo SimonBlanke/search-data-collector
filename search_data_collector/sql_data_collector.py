@@ -47,3 +47,7 @@ class SqlDataCollector:
             tbl.drop(self.dbEngine, checkfirst=False)
         except sql.exc.NoSuchTableError:
             pass
+
+    @property
+    def tables(self):
+        return self.dbEngine.table_names()
