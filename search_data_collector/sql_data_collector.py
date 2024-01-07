@@ -1,5 +1,6 @@
 import sqlalchemy as sql
 
+import os
 import pandas as pd
 
 from .search_data_converter import SearchDataConverter
@@ -16,6 +17,10 @@ class SqlDataCollector:
         self.dbEngine = sql.create_engine(self.ml_data_path)
 
     def load(self, table, search_space=None):
+        if not os.path.isfile(self.path):
+            msg = "SQL Database does not exist in path: " + self.path
+            raise FileNotFoundError(msg)
+
         df = pd.read_sql_table(table, self.dbEngine)
         if search_space is None:
             return df
