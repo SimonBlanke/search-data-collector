@@ -33,7 +33,8 @@ MANIFEST
 *.manifest
 *.spec
 
-# dev
+# Dev
+**/_dev_scripts
 *.csv
 *.lock~
 *.db
