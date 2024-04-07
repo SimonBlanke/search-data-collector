@@ -7,7 +7,7 @@ where = ["src"]
 
 [project]
 name = "search-data-collector"
-version = "0.4.3"
+version = "0.5.0"
 description = ""
 dynamic = ["dependencies"]
 readme = "README.md"
