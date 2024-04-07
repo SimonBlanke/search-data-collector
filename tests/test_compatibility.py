@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from hyperactive import Hyperactive
 
-from search_data_collector import SearchDataCollector
+from search_data_collector import CsvSearchData
 
 from ._test_utils import search_data_equal
 from ._search_space_list import search_space_setup
@@ -14,7 +14,7 @@ search_space_list = search_space_setup()
 """
 @pytest.mark.parametrize("search_space", search_space_list)
 def test_hyperactive_0(search_space):
-    collector = SearchDataCollector("./search_data.csv")
+    collector = CsvSearchData("./search_data.csv")
     collector.remove()
 
     def objective_function(para):

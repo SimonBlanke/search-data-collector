@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from hyperactive import Hyperactive
 
-from search_data_collector import SqlDataCollector
+from search_data_collector import SqlSearchData
 
 from .._test_utils import search_data_equal
 from .._search_space_list import search_space_setup
@@ -43,7 +43,7 @@ path = "./search_data.db"
 def test_hyperactive_save_0(objective, search_space):
     print("\n search_space \n", search_space)
 
-    collector = SqlDataCollector(path)
+    collector = SqlSearchData(path)
     collector.remove(table)
 
     hyper = Hyperactive()
@@ -62,7 +62,7 @@ def test_hyperactive_save_0(objective, search_space):
 def test_hyperactive_save_1(objective, search_space):
     print("\n search_space \n", search_space)
 
-    collector = SqlDataCollector(path)
+    collector = SqlSearchData(path)
     collector.remove(table)
 
     hyper = Hyperactive()
@@ -85,7 +85,7 @@ search_space_list = search_space_setup(search_space_types="numeric")
 def test_hyperactive_save_3(objective, search_space):
     print("\n search_space \n", search_space)
 
-    collector = SqlDataCollector(path)
+    collector = SqlSearchData(path)
     collector.remove(table)
 
     hyper = Hyperactive()

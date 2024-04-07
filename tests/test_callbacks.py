@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from hyperactive import Hyperactive
 
-from search_data_collector import SearchDataCollector
+from search_data_collector import CsvSearchData
 
 from ._test_utils import search_data_equal
 
@@ -15,7 +15,7 @@ size = 1000
 
 dim_full = list(range(0, size))
 dim_cat = list(range(round(size / 3)))
-dim_10 = list(range(round(size ** 0.1)))
+dim_10 = list(range(round(size**0.1)))
 
 search_space_0 = {
     "x1": dim_full,
@@ -216,7 +216,7 @@ search_space_list = [
 
 @pytest.mark.parametrize("search_space", search_space_list)
 def test_append_0(search_space):
-    collector = SearchDataCollector("./search_data.csv")
+    collector = CsvSearchData("./search_data.csv")
     collector.remove()
 
     def callback1(path):
@@ -251,7 +251,7 @@ def test_append_0(search_space):
 
 @pytest.mark.parametrize("search_space", search_space_list)
 def test_append_1(search_space):
-    collector = SearchDataCollector("./search_data.csv")
+    collector = CsvSearchData("./search_data.csv")
     collector.remove()
 
     def callback1(path):

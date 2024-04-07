@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from hyperactive import Hyperactive
 
-from search_data_collector import SqlDataCollector
+from search_data_collector import SqlSearchData
 
 from .._test_utils import search_data_equal
 from .._search_space_list import search_space_setup
@@ -17,7 +17,7 @@ table = "test_table"
 
 @pytest.mark.parametrize("search_space", search_space_list)
 def test_append_0(search_space):
-    collector = SqlDataCollector(path)
+    collector = SqlSearchData(path)
     collector.remove(table)
 
     def objective_function(para):
@@ -40,7 +40,7 @@ def test_append_0(search_space):
 
 @pytest.mark.parametrize("search_space", search_space_list)
 def test_append_1(search_space):
-    collector = SqlDataCollector(path)
+    collector = SqlSearchData(path)
     collector.remove(table)
 
     def objective_function(para):
@@ -67,7 +67,7 @@ search_space_list = search_space_setup(search_space_types="numeric")
 
 @pytest.mark.parametrize("search_space", search_space_list)
 def test_append_3(search_space):
-    collector = SqlDataCollector(path)
+    collector = SqlSearchData(path)
     collector.remove(table)
 
     def objective_function(para):
@@ -90,7 +90,7 @@ def test_append_3(search_space):
 
 @pytest.mark.parametrize("search_space", search_space_list)
 def test_append_4(search_space):
-    collector = SqlDataCollector(path)
+    collector = SqlSearchData(path)
     collector.remove(table)
 
     def objective_function(para):
@@ -110,7 +110,7 @@ def test_append_4(search_space):
         "x1": list(np.arange(0, 10)),
     }
 
-    collector = SqlDataCollector(path)
+    collector = SqlSearchData(path)
     hyper = Hyperactive()
     hyper.add_search(objective_function, _search_space_, n_iter=15)
     with pytest.raises(Exception):

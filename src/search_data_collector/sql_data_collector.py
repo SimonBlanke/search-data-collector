@@ -6,7 +6,7 @@ import pandas as pd
 from .search_data_converter import SearchDataConverter
 
 
-class SqlDataCollector:
+class SqlSearchData:
     def __init__(self, path, func2str=True) -> None:
         self.path = path
         self.func2str = func2str
@@ -50,7 +50,7 @@ class SqlDataCollector:
         try:
             tbl = sql.Table(table, sql.MetaData(), autoload_with=self.dbEngine)
             tbl.drop(self.dbEngine, checkfirst=False)
-        except sql.exc.NoSuchTableError:
+        except sql.exc.NoSuchTableError as e:
             pass
 
     @property

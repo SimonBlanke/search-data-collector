@@ -63,9 +63,9 @@ pip install search-data-collector
 ```python
 import numpy as np
 from hyperactive import Hyperactive
-from search_data_collector import SearchDataCollector
+from search_data_collector import CsvSearchData
 
-collector = SearchDataCollector("./search_data.csv")  # the csv is created automatically
+collector = CsvSearchData("./search_data.csv")  # the csv is created automatically
 
 
 def parabola_function(para):
@@ -102,9 +102,9 @@ print("\n search_data \n", search_data)
 ```python
 import numpy as np
 from hyperactive import Hyperactive
-from search_data_collector import SearchDataCollector
+from search_data_collector import CsvSearchData
 
-collector = SearchDataCollector("./search_data.csv")  # the csv is created automatically
+collector = CsvSearchData("./search_data.csv")  # the csv is created automatically
 
 
 def parabola_function(para):
@@ -140,9 +140,9 @@ print("\n search_data \n", search_data)
 ```python
 import numpy as np
 from hyperactive import Hyperactive
-from search_data_collector import SearchDataCollector
+from search_data_collector import CsvSearchData
 
-collector = SearchDataCollector("./search_data.csv")  # the csv is created automatically
+collector = CsvSearchData("./search_data.csv")  # the csv is created automatically
 
 
 def parabola_function(para):

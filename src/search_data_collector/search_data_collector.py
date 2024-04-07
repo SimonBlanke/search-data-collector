@@ -87,7 +87,7 @@ def func2str(obj):
         return obj
 
 
-class SearchDataCollector:
+class CsvSearchData:
     def __init__(self, path, func2str=True):
         self.path = path
         self.func2str = func2str
