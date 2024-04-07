@@ -1,17 +1,28 @@
-install:
-	python -m pip install -r ./requirements/requirements.txt
+build:
+	python -m build
 
-install-test:
-	python -m pip install -r ./requirements/requirements-test.txt
+install: build
+	pip install dist/*.whl
 
-dev-install:
+uninstall:
+	pip uninstall -y search-data-collector
+	rm -fr build dist *.egg-info
+
+install-requirements:
+	python -m pip install -r ./requirements/requirements.in
+
+install-test-requirements:
+	python -m pip install -r ./requirements/requirements-test.in
+
+install-build-requirements:
+	python -m pip install -r ./requirements/requirements-build.in
+
+install-editable:
 	pip install -e .
 
-reinstall:
-	pip uninstall -y search-data-collector
-	rm -fr build dist search_data_collector.egg-info
-	python -m build
-	pip install dist/*.whl
+reinstall: uninstall install
+
+reinstall-editable: uninstall install-editable
 
 tox-test:
 	tox -- -x -p no:warnings -rfEX tests/ \
@@ -24,4 +35,5 @@ test:  py-test tox-test
 requirement:
 	cd requirements/; \
 		pip-compile requirements.in;\
-		pip-compile requirements-test.in
+		pip-compile requirements-test.in;\
+		pip-compile requirements-build.in
