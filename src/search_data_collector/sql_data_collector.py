@@ -46,12 +46,16 @@ class SqlSearchData:
             name=table, con=self.dbEngine, index=False, if_exists=if_exists
         )
 
-    def remove(self, table):
-        try:
-            tbl = sql.Table(table, sql.MetaData(), autoload_with=self.dbEngine)
-            tbl.drop(self.dbEngine, checkfirst=False)
-        except sql.exc.NoSuchTableError as e:
-            pass
+    def remove(self, table=None):
+        if table is None:
+            if os.path.exists(self.path):
+                os.remove(self.path)
+        else:
+            try:
+                tbl = sql.Table(table, sql.MetaData(), autoload_with=self.dbEngine)
+                tbl.drop(self.dbEngine, checkfirst=False)
+            except sql.exc.NoSuchTableError as e:
+                print(e)
 
     @property
     def tables(self):
